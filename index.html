@@ -1,0 +1,942 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Security: only same-origin resources may load. No third-party scripts, fonts, or trackers. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <title>ScaleX — Open-Source Quantitative Research &amp; Trading</title>
+  <meta name="description" content="ScaleX researches systematic trading strategies, quantitative finance, and open-source financial infrastructure — publishing methods, code, and limitations so the work can be reproduced and challenged.">
+  <!-- [DOMAIN] Replace https://[DOMAIN] with the real domain here, in research/*.html, robots.txt and sitemap.xml. -->
+  <link rel="canonical" href="https://[DOMAIN]/">
+  <meta name="theme-color" content="#f3f9fe">
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+
+  <!-- Open Graph / social previews -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ScaleX">
+  <meta property="og:title" content="ScaleX — Open-Source Quantitative Research &amp; Trading">
+  <meta property="og:description" content="Systematic trading research, quantitative models, and financial infrastructure — built in the open.">
+  <meta property="og:url" content="https://[DOMAIN]/">
+  <meta property="og:image" content="https://[DOMAIN]/assets/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="ScaleX — Quantitative finance, opened up.">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preload" href="assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/config.js"></script>
+  <script src="js/main.js" defer></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "ScaleX",
+    "alternateName": "ScaleX Research",
+    "url": "https://[DOMAIN]/",
+    "logo": "https://[DOMAIN]/assets/icons/favicon.svg",
+    "description": "Open-source quantitative research: systematic trading strategies, quantitative models, and financial infrastructure.",
+    "sameAs": ["https://github.com/scalex-research"]
+  }
+  </script>
+</head>
+<body>
+  <!-- Icon sprite: referenced below with <use href="#i-…">. Decorative only. -->
+  <svg width="0" height="0" class="visually-hidden" aria-hidden="true" focusable="false">
+    <symbol id="i-github" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></symbol>
+    <symbol id="i-repo" viewBox="0 0 24 24"><path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5v-15ZM5 19.5A1.5 1.5 0 0 0 6.5 21H19"/></symbol>
+    <symbol id="i-doc" viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7zM14 3v4h4M10 12h5M10 16h5"/></symbol>
+    <symbol id="i-tag" viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-8 8L3 12Z"/><path d="M7.5 7.5h.01"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.4 7.5 9.5 4.3-1.1 7.5-4.9 7.5-9.5V6L12 3Z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-loop" viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5.3L20 9M20 4v5h-5M20 12a8 8 0 0 1-14 5.3L4 15M4 20v-5h5"/></symbol>
+  </svg>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ===================== Header ===================== -->
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="ScaleX — back to top">
+        <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <rect x="3.5" y="9.5" width="17" height="19" rx="4" fill="none" stroke="#0b1b2b" stroke-width="1.8"/>
+          <rect x="11" y="3" width="18" height="20" rx="4.5" fill="#3a9bdc"/>
+          <path d="M16 10.5h8M16 15h5" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        <span>Scale<span class="brand__x">X</span></span>
+      </a>
+
+      <nav class="nav__links" aria-label="Primary">
+        <a href="#process">Process</a>
+        <a href="#research">Research</a>
+        <a href="#strategies">Strategies</a>
+        <a href="#open-source">Open Source</a>
+        <a href="#infrastructure">Infrastructure</a>
+        <a href="#about">About</a>
+      </nav>
+
+      <div class="nav__utility">
+        <a href="https://github.com/scalex-research" data-href="github" rel="noopener">
+          <svg class="icon icon--fill" aria-hidden="true"><use href="#i-github"/></svg>GitHub
+        </a>
+        <a class="btn btn--sm" href="#research">Explore Research</a>
+      </div>
+
+      <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
+        <span class="nav__toggle-bar"></span>
+        <span class="nav__toggle-bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <nav aria-label="Mobile">
+      <ul class="mobile-menu__links">
+        <li><a href="#process">How we research</a></li>
+        <li><a href="#research">Research</a></li>
+        <li><a href="#strategies">Strategy research</a></li>
+        <li><a href="#backtesting">Backtesting</a></li>
+        <li><a href="#risk">Risk</a></li>
+        <li><a href="#data">Data</a></li>
+        <li><a href="#open-source">Open source</a></li>
+        <li><a href="#infrastructure">Infrastructure</a></li>
+        <li><a href="#principles">Principles</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </nav>
+    <div class="mobile-menu__actions">
+      <a class="btn" href="#research">Explore Research</a>
+      <a class="btn btn--ghost" href="https://github.com/scalex-research" data-href="github" rel="noopener">
+        <svg class="icon icon--fill" aria-hidden="true"><use href="#i-github"/></svg>View GitHub
+      </a>
+    </div>
+  </div>
+
+  <main id="main">
+    <!-- ===================== Hero ===================== -->
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="container hero__inner">
+        <div class="hero__copy">
+          <p class="eyebrow reveal">Open-source quantitative research</p>
+          <h1 class="hero__title h-display reveal d1" id="hero-title">Quantitative finance, <em>opened&nbsp;up.</em></h1>
+          <p class="hero__lede reveal d2">We research systematic trading strategies, quantitative models, and financial infrastructure — combining statistical research with software engineering and publishing what we can openly.</p>
+          <div class="hero__actions reveal d3">
+            <a class="btn" href="#research">Explore Research <span class="arrow" aria-hidden="true">→</span></a>
+            <a class="btn btn--ghost" href="https://github.com/scalex-research" data-href="github" rel="noopener">
+              <svg class="icon icon--fill" aria-hidden="true"><use href="#i-github"/></svg>View GitHub
+            </a>
+          </div>
+          <p class="hero__tertiary reveal d3"><a class="link-arrow" href="#process">How we research <span aria-hidden="true">→</span></a></p>
+          <ul class="hero__meta reveal d3" aria-label="How ScaleX Research publishes">
+            <li>Pre-registered studies</li>
+            <li>Open code</li>
+            <li>Published limitations</li>
+          </ul>
+        </div>
+
+        <figure class="figure reveal d2">
+          <div class="figure__bar" aria-hidden="true">
+            <span class="figure__dots"><span></span><span></span><span></span></span>
+            <span>fig.01 / brownian_paths.py</span>
+          </div>
+          <div class="figure__canvas-wrap">
+            <canvas id="hero-canvas" role="img" aria-label="Illustrative animation: simulated random-walk paths fan out from a single starting point within one- and two-standard-deviation bands, while their end values build up a bell-shaped density that matches the theoretical normal distribution."></canvas>
+            <span class="figure__eq" aria-hidden="true">dX<sub>t</sub> = σ dW<sub>t</sub></span>
+          </div>
+          <figcaption class="figure__caption">
+            <span>Illustrative simulation — not market data.</span>
+            <span class="figure__legend" aria-hidden="true">
+              <span><i></i>empirical</span>
+              <span><i class="dashed"></i>N(0, σ²T)</span>
+            </span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ===================== Research philosophy ===================== -->
+    <section class="section" id="philosophy" aria-labelledby="philosophy-title">
+      <div class="container">
+        <div class="section-head section-head--split">
+          <div>
+            <p class="eyebrow reveal">Research philosophy</p>
+            <h2 class="h-1 reveal d1" id="philosophy-title">We research markets systematically.</h2>
+          </div>
+          <p class="section-head__lede reveal d2">We build and study systematic trading strategies using mathematics, statistics, data, and software. A strategy is a hypothesis that has to survive data, costs, constraints, and out-of-sample evidence. We publish the research and infrastructure openly.</p>
+        </div>
+
+        <ol class="principles">
+          <li class="principle reveal">
+            <span class="principle__num">01 — Data</span>
+            <span class="principle__glyph" aria-hidden="true">{x<sub>t</sub>}</span>
+            <h3>Clean data first</h3>
+            <p>Collect, clean, and validate financial data before any result built on it is trusted.</p>
+          </li>
+          <li class="principle reveal d1">
+            <span class="principle__num">02 — Hypotheses</span>
+            <span class="principle__glyph" aria-hidden="true">H<sub>0</sub></span>
+            <h3>Testable ideas</h3>
+            <p>Formulate hypotheses about market behaviour that can be measured and could be wrong.</p>
+          </li>
+          <li class="principle reveal d2">
+            <span class="principle__num">03 — Validation</span>
+            <span class="principle__glyph" aria-hidden="true">σ</span>
+            <h3>Evidence, not anecdotes</h3>
+            <p>Backtest under realistic assumptions, then try hard to break the result.</p>
+          </li>
+          <li class="principle reveal d3">
+            <span class="principle__num">04 — Implementation</span>
+            <span class="principle__glyph" aria-hidden="true">∫ dt</span>
+            <h3>Risk and costs, explicitly</h3>
+            <p>Model risk, transaction costs, and execution before a strategy is considered usable.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===================== How we research ===================== -->
+    <section class="section section--soft" id="process" aria-labelledby="process-title">
+      <div class="container process-layout">
+        <div class="process-layout__intro">
+          <p class="eyebrow reveal">How we research</p>
+          <h2 class="h-1 reveal d1" id="process-title">From hypothesis to strategy.</h2>
+          <p class="lede reveal d2">A quant does not look at charts and trade. Quantitative trading is a research process: each stage can reject an idea, and most ideas are rejected.</p>
+          <p class="lede reveal d2">The stages below are the same whether the subject is a momentum signal, a market-making model, or an execution algorithm.</p>
+        </div>
+
+        <ol class="process" aria-label="Eight stages of quantitative research">
+          <li class="step reveal"><span class="step__num" aria-hidden="true">01</span><div><h3>Hypothesis</h3><p>Define a market behaviour or statistical relationship worth investigating, and what evidence would contradict it.</p><span class="step__q">What do we expect, and why?</span></div></li>
+          <li class="step reveal"><span class="step__num" aria-hidden="true">02</span><div><h3>Data</h3><p>Collect, clean, normalise, and validate the relevant datasets, using only information that was available at each point in time.</p><span class="step__q">Is every input correct and point-in-time?</span></div></li>
+          <li class="step reveal"><span class="step__num" aria-hidden="true">03</span><div><h3>Signal</h3><p>Translate the hypothesis into a measurable quantitative signal with a precise, written definition.</p><span class="step__q">Can the idea be measured?</span></div></li>
+          <li class="step reveal"><span class="step__num" aria-hidden="true">04</span><div><h3>Backtest</h3><p>Evaluate the strategy against historical data while accounting for realistic assumptions about costs and timing.</p><span class="step__q">What would have happened, after costs?</span></div></li>
+          <li class="step reveal"><span class="step__num" aria-hidden="true">05</span><div><h3>Validation</h3><p>Test robustness across different periods, assets, parameters, and market regimes — and correct for the number of variants tried.</p><span class="step__q">Does it hold elsewhere and later?</span></div></li>
+          <li class="step reveal"><span class="step__num" aria-hidden="true">06</span><div><h3>Risk</h3><p>Model exposure, volatility, drawdowns, correlation, liquidity, and position sizing.</p><span class="step__q">How could this lose money?</span></div></li>
+          <li class="step reveal"><span class="step__num" aria-hidden="true">07</span><div><h3>Execution</h3><p>Consider transaction costs, slippage, liquidity, and execution constraints before any capital is committed.</p><span class="step__q">Can it be traded at the assumed cost?</span></div></li>
+          <li class="step reveal"><span class="step__num" aria-hidden="true">08</span><div><h3>Evaluation</h3><p>Continuously evaluate whether the underlying hypothesis remains supported by evidence — and retire it when it does not.</p><span class="step__q">Is the evidence still supportive?</span></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===================== Research ===================== -->
+    <section class="section" id="research" aria-labelledby="research-title">
+      <div class="container">
+        <div class="section-head section-head--split">
+          <div>
+            <p class="eyebrow reveal">ScaleX Research</p>
+            <h2 class="h-1 reveal d1" id="research-title">Research</h2>
+          </div>
+          <p class="section-head__lede reveal d2">We investigate systematic approaches to understanding markets, constructing portfolios, and designing trading strategies.</p>
+        </div>
+
+        <h3 class="visually-hidden">Research areas</h3>
+        <ul class="areas">
+          <li class="area reveal"><span class="area__k">01</span><h4 class="h-3">Statistical Arbitrage</h4><p>Research into relative-value relationships, mean reversion, pairs, and cross-sectional statistical signals.</p></li>
+          <li class="area reveal"><span class="area__k">02</span><h4 class="h-3">Momentum &amp; Trend</h4><p>Systematic approaches to identifying persistent price movements and market trends.</p></li>
+          <li class="area reveal"><span class="area__k">03</span><h4 class="h-3">Factor Research</h4><p>Research into systematic drivers of cross-sectional returns.</p></li>
+          <li class="area reveal"><span class="area__k">04</span><h4 class="h-3">Market Microstructure</h4><p>Research into liquidity, order flow, price formation, spreads, and execution.</p></li>
+          <li class="area reveal"><span class="area__k">05</span><h4 class="h-3">Portfolio Construction</h4><p>Methods for combining signals and allocating capital under risk constraints.</p></li>
+          <li class="area reveal"><span class="area__k">06</span><h4 class="h-3">Volatility</h4><p>Research into volatility forecasting, volatility surfaces, and systematic volatility strategies.</p></li>
+          <li class="area reveal"><span class="area__k">07</span><h4 class="h-3">Machine Learning</h4><p>Applications of statistical learning and machine learning to financial datasets.</p></li>
+          <li class="area reveal"><span class="area__k">08</span><h4 class="h-3">Alternative Data</h4><p>Research into non-traditional datasets and their potential applications in systematic research.</p></li>
+        </ul>
+        <p class="areas-note">These are research areas — the questions we study. They are not descriptions of strategies in production or promises of profitable results.</p>
+
+        <!-- Latest publication. Every number below is copied from the publication page; do not edit independently. -->
+        <article class="pub-feature reveal" aria-labelledby="pub-momentum-title">
+          <div class="pub-feature__body">
+            <div class="pub-feature__meta">
+              <span class="card__category">Latest publication</span>
+              <span>Factor Research</span>
+              <span><time datetime="2026-10-01">2026-10-01</time></span>
+              <span>v1.0.0</span>
+            </div>
+            <h3 id="pub-momentum-title"><a href="research/cross-sectional-momentum-under-implementation-stress.html">Cross-Sectional Momentum Under Implementation Stress</a></h3>
+            <p>Does a classical momentum signal stay meaningful when reasonable implementation choices change? We tested 12-1 momentum on the 49 US industry portfolios of the Kenneth R. French Data Library, 1927–2026, with the specification, 20 variations, the statistical tests and a decision rule fixed in writing before any result was computed.</p>
+            <div class="verdict">
+              <p><strong>Pre-registered verdict: partially robust.</strong> The gross effect is robust. Net of trading costs it is fragile: it is not significant after correcting for multiple testing, and it disappears with shorter lookbacks and higher costs.</p>
+            </div>
+            <div class="pub-feature__actions">
+              <a class="btn" href="research/cross-sectional-momentum-under-implementation-stress.html">Read the Paper <span class="arrow" aria-hidden="true">→</span></a>
+              <a class="btn btn--ghost" href="https://github.com/scalex-research/scalex-momentum-research" data-href="repo" data-repo="scalex-momentum-research" rel="noopener">
+                <svg class="icon icon--fill" aria-hidden="true"><use href="#i-github"/></svg>View Source
+              </a>
+              <a class="btn btn--ghost" href="research/cross-sectional-momentum/research_note.pdf">
+                <svg class="icon" aria-hidden="true"><use href="#i-doc"/></svg>PDF
+              </a>
+            </div>
+          </div>
+          <div>
+            <dl class="keyfigs">
+              <span class="keyfigs__label">Historical simulation, 1927–2026 · not live trading</span>
+              <div><dt>Gross, annualised mean</dt><dd>7.95% (t = 4.59)</dd></div>
+              <div><dt>Net of 25 bps costs</dt><dd>4.96% (t = 2.83)</dd></div>
+              <div><dt>Holm-adjusted p, net</dt><dd>0.052</dd></div>
+              <div><dt>Max drawdown, net</dt><dd>−91.0%</dd></div>
+              <div><dt>Non-cost variations unchanged</dt><dd>11 of 16 (12 required)</dd></div>
+            </dl>
+            <figure class="pub-feature__fig">
+              <img src="research/cross-sectional-momentum/fig06_robustness.png" width="1600" height="1440" loading="lazy" decoding="async" alt="Forest plot of annualised mean long-short returns, gross and net, with 95% confidence intervals, for the primary specification and 16 variations. Short lookbacks (3 and 6 months) have net intervals spanning or below zero.">
+              <figcaption>Robustness of the result across 16 variations. Source: Kenneth R. French Data Library; ScaleX calculations.</figcaption>
+            </figure>
+          </div>
+        </article>
+
+        <div class="section-foot">
+          <a class="link-arrow" href="research/cross-sectional-momentum-under-implementation-stress.html">View the Methodology <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Strategy research ===================== -->
+    <section class="section section--soft" id="strategies" aria-labelledby="strategies-title">
+      <div class="container">
+        <div class="section-head section-head--split">
+          <div>
+            <p class="eyebrow reveal">Strategy library</p>
+            <h2 class="h-1 reveal d1" id="strategies-title">Strategy Research</h2>
+          </div>
+          <p class="section-head__lede reveal d2">Thirteen classes of quantitative strategy, each described the same way: what it tries to capture, why it might work, how it is tested, and where it breaks. Descriptions are educational. None is presented as a strategy that reliably makes money.</p>
+        </div>
+
+        <div class="lib" data-lib>
+          <div class="lib__nav" aria-label="Strategy classes" hidden></div>
+          <div class="lib__panels">
+
+            <article class="strat" id="strat-stat-arb" data-title="Statistical Arbitrage">
+              <header class="strat__head"><span class="strat__kind">Relative value</span><h3>Statistical Arbitrage</h3><p class="strat__lede">Trades temporary deviations in the relative prices of statistically related securities.</p></header>
+              <dl class="strat__grid">
+                <div><dt>01 · What it captures</dt><dd>Short-lived mispricings between securities whose prices are statistically linked.</dd></div>
+                <div><dt>02 · Hypothesis</dt><dd>Relationships driven by common factors tend to reassert themselves after temporary dislocations caused by liquidity demand.</dd></div>
+                <div><dt>03 · Data</dt><dd>Clean, synchronised prices for a broad universe; factor exposures; borrow availability and fees.</dd></div>
+                <div><dt>04 · Signal</dt><dd>Residual returns after removing common factor exposure, traded when a residual is large relative to its own volatility.</dd></div>
+                <div><dt>05 · Positions</dt><dd>Many small market- and factor-neutral positions, sized by signal strength and expected holding period.</dd></div>
+                <div><dt>06 · Risks</dt><dd>Crowding and simultaneous unwinds; relationships that break permanently; short-squeeze and borrow risk.</dd></div>
+                <div><dt>07 · How to test it</dt><dd>Estimate the residual model out of sample; include realistic costs and borrow fees; analyse capacity.</dd></div>
+                <div><dt>08 · Limitations</dt><dd>The expected edge per trade is small, so results are highly sensitive to cost and execution assumptions.</dd></div>
+              </dl>
+            </article>
+
+            <article class="strat" id="strat-mean-reversion" data-title="Mean Reversion">
+              <header class="strat__head"><span class="strat__kind">Time series · short horizon</span><h3>Mean Reversion</h3><p class="strat__lede">Positions for the partial reversal of short-term price moves that overshoot.</p></header>
+              <dl class="strat__grid">
+                <div><dt>01 · What it captures</dt><dd>The tendency of some extreme short-term moves to partially reverse.</dd></div>
+                <div><dt>02 · Hypothesis</dt><dd>Liquidity demand and overreaction push prices temporarily away from fair value.</dd></div>
+                <div><dt>03 · Data</dt><dd>Daily or intraday prices, volume, and bid-ask spreads.</dd></div>
+                <div><dt>04 · Signal</dt><dd>Standardised deviation from a moving average, or ranks of recent returns (short-term reversal).</dd></div>
+                <div><dt>05 · Positions</dt><dd>Contrarian positions with short holding periods, often hedged against the market.</dd></div>
+                <div><dt>06 · Risks</dt><dd>Moves driven by news that do not revert; trends that continue; high turnover.</dd></div>
+                <div><dt>07 · How to test it</dt><dd>Separate the prices used for signals from those used for execution, to avoid bid-ask bounce; measure net of costs; analyse by regime.</dd></div>
+                <div><dt>08 · Limitations</dt><dd>Apparent reversal in closing-price data can be an artefact of microstructure noise rather than a tradable effect.</dd></div>
+              </dl>
+            </article>
+
+            <article class="strat" id="strat-momentum" data-title="Momentum">
+              <header class="strat__head"><span class="strat__kind">Cross-sectional</span><h3>Momentum</h3><p class="strat__lede">Ranks assets by past performance and favours recent relative winners over recent relative losers.</p></header>
+              <dl class="strat__grid">
+                <div><dt>01 · What it captures</dt><dd>The tendency of relative winners to keep outperforming relative losers over intermediate horizons.</dd></div>
+                <div><dt>02 · Hypothesis</dt><dd>Investors under-react to new information and then herd, so relative performance persists for months.</dd></div>
+                <div><dt>03 · Data</dt><dd>Total returns for a defined universe — stocks, industries, or asset classes — free of survivorship bias.</dd></div>
+                <div><dt>04 · Signal</dt><dd>Past 12-month return skipping the most recent month (the “12-1” signal), ranked across the universe.</dd></div>
+                <div><dt>05 · Positions</dt><dd>Long the top bucket and short the bottom, rebalanced periodically; equal-, value- or volatility-weighted.</dd></div>
+                <div><dt>06 · Risks</dt><dd>Sharp “momentum crashes” when markets rebound after declines; high turnover; crowding.</dd></div>
+                <div><dt>07 · How to test it</dt><dd>Vary lookback, holding period, universe, and costs; examine subperiods and market states; correct for multiple testing.</dd></div>
+                <div><dt>08 · Limitations</dt><dd>Much of the classical evidence overlaps the data on which the effect was first documented.</dd></div>
+              </dl>
+              <p class="strat__study"><span>ScaleX Research tested exactly this signal under implementation stress.</span><a href="research/cross-sectional-momentum-under-implementation-stress.html">Read the study →</a></p>
+            </article>
+
+            <article class="strat" id="strat-trend" data-title="Trend Following">
+              <header class="strat__head"><span class="strat__kind">Time series · multi-asset</span><h3>Trend Following</h3><p class="strat__lede">Follows the direction of each market's own price trend, typically across many futures markets.</p></header>
+              <dl class="strat__grid">
+                <div><dt>01 · What it captures</dt><dd>Sustained directional moves in individual markets.</dd></div>
+                <div><dt>02 · Hypothesis</dt><dd>Gradual diffusion of information and risk-transfer flows create persistent trends.</dd></div>
+                <div><dt>03 · Data</dt><dd>Continuous futures prices with careful roll adjustment, contract specifications, and volatility estimates.</dd></div>
+                <div><dt>04 · Signal</dt><dd>The sign or strength of past returns, or moving-average crossovers, over several horizons.</dd></div>
+                <div><dt>05 · Positions</dt><dd>Long rising markets and short falling ones, scaled so each market contributes a similar level of risk.</dd></div>
+                <div><dt>06 · Risks</dt><dd>Whipsaws in range-bound markets, sharp reversals, and long losing streaks.</dd></div>
+                <div><dt>07 · How to test it</dt><dd>Multi-decade, multi-asset histories; checks on roll methodology; sensitivity across lookbacks.</dd></div>
+                <div><dt>08 · Limitations</dt><dd>Results arrive in infrequent episodes, so short samples say very little.</dd></div>
+              </dl>
+            </article>
+
+            <article class="strat" id="strat-factor" data-title="Factor Investing">
+              <header class="strat__head"><span class="strat__kind">Cross-sectional</span><h3>Factor Investing</h3><p class="strat__lede">Systematic exposure to characteristics associated with differences in average returns.</p></header>
+              <dl class="strat__grid">
+                <div><dt>01 · What it captures</dt><dd>Premia linked to characteristics such as value, size, quality, profitability, or low volatility.</dd></div>
+                <div><dt>02 · Hypothesis</dt><dd>Premia reflect compensation for risk, persistent behavioural biases, or structural constraints on investors.</dd></div>
+                <div><dt>03 · Data</dt><dd>Point-in-time fundamentals, prices, market capitalisation, and corporate actions.</dd></div>
+                <div><dt>04 · Signal</dt><dd>Characteristic scores such as book-to-price, standardised within sectors or regions.</dd></div>
+                <div><dt>05 · Positions</dt><dd>Long-short factor portfolios or tilted long-only portfolios, often combining several factors.</dd></div>
+                <div><dt>06 · Risks</dt><dd>Long periods of underperformance, crowding, and unintended sector or macroeconomic exposures.</dd></div>
+                <div><dt>07 · How to test it</dt><dd>Point-in-time data only; out-of-sample periods and regions; controls for known factors.</dd></div>
+                <div><dt>08 · Limitations</dt><dd>Many published factors fail to replicate; data mining is a central concern.</dd></div>
+              </dl>
+            </article>
+
+            <article class="strat" id="strat-pairs" data-title="Pairs Trading">
+              <header class="strat__head"><span class="strat__kind">Relative value</span><h3>Pairs Trading</h3><p class="strat__lede">Trades the spread between two closely related securities.</p></header>
+              <dl class="strat__grid">
+                <div><dt>01 · What it captures</dt><dd>Reversion in the spread between two securities with a stable long-run relationship.</dd></div>
+                <div><dt>02 · Hypothesis</dt><dd>Economically linked securities are cointegrated: the spread between them tends to revert to an equilibrium.</dd></div>
+                <div><dt>03 · Data</dt><dd>Synchronised prices, corporate actions, and borrow availability.</dd></div>
+                <div><dt>04 · Signal</dt><dd>The z-score of the spread relative to its estimated equilibrium, with entry and exit thresholds.</dd></div>
+                <div><dt>05 · Positions</dt><dd>Long the relatively cheap leg, short the relatively expensive leg, with a hedge ratio from the estimated relationship.</dd></div>
+                <div><dt>06 · Risks</dt><dd>Structural breaks — mergers, regulation, business changes — that permanently move the spread.</dd></div>
+                <div><dt>07 · How to test it</dt><dd>Select pairs and estimate parameters out of sample, and account for the number of pairs screened.</dd></div>
+                <div><dt>08 · Limitations</dt><dd>Screening thousands of candidate pairs produces spurious relationships by chance.</dd></div>
+              </dl>
+            </article>
+
+            <article class="strat" id="strat-cross-sectional" data-title="Cross-Sectional Strategies">
+              <header class="strat__head"><span class="strat__kind">General framework</span><h3>Cross-Sectional Strategies</h3><p class="strat__lede">Compares assets with each other at a point in time, rather than each asset with its own past.</p></header>
+              <dl class="strat__grid">
+                <div><dt>01 · What it captures</dt><dd>Relative differences across a universe, while staying neutral to the overall market.</dd></div>
+                <div><dt>02 · Hypothesis</dt><dd>Some characteristics predict which assets will do better or worse than their peers.</dd></div>
+                <div><dt>03 · Data</dt><dd>Comparable features across assets: returns, fundamentals, analyst estimates, liquidity.</dd></div>
+                <div><dt>04 · Signal</dt><dd>Ranks or z-scores of one or more characteristics, often neutralised to industries and risk factors.</dd></div>
+                <div><dt>05 · Positions</dt><dd>Long high-ranked and short low-ranked assets, with constraints on exposures and turnover.</dd></div>
+                <div><dt>06 · Risks</dt><dd>Hidden common exposures, crowding, and universe-construction choices that drive results.</dd></div>
+                <div><dt>07 · How to test it</dt><dd>Information coefficients, bucket spreads, signal decay, and robustness to the universe definition.</dd></div>
+                <div><dt>08 · Limitations</dt><dd>A strategy can be market-neutral on average and still carry material risk in stress periods.</dd></div>
+              </dl>
+            </article>
+
+            <article class="strat" id="strat-volatility" data-title="Volatility Strategies">
+              <header class="strat__head"><span class="strat__kind">Derivatives</span><h3>Volatility Strategies</h3><p class="strat__lede">Trades the level, shape, or dynamics of volatility.</p></header>
+              <dl class="strat__grid">
+                <div><dt>01 · What it captures</dt><dd>Differences between implied and subsequently realised volatility, or structure in the volatility surface.</dd></div>
+                <div><dt>02 · Hypothesis</dt><dd>Option prices embed a volatility risk premium and term-structure patterns that are partly predictable.</dd></div>
+                <div><dt>03 · Data</dt><dd>Option prices and implied volatility surfaces, realised volatility from high-frequency data, volatility futures.</dd></div>
+                <div><dt>04 · Signal</dt><dd>Implied minus forecast realised volatility; term-structure slope; skew measures.</dd></div>
+                <div><dt>05 · Positions</dt><dd>Delta-hedged option positions or volatility futures, sized to explicit stress-loss limits.</dd></div>
+                <div><dt>06 · Risks</dt><dd>Severe losses in volatility spikes, gap risk, and liquidity that disappears when it is most needed.</dd></div>
+                <div><dt>07 · How to test it</dt><dd>Realistic option spreads and hedging costs, with every stress period included.</dd></div>
+                <div><dt>08 · Limitations</dt><dd>Strategies that sell volatility can look smooth for years before a single large loss.</dd></div>
+              </dl>
+            </article>
+
+            <article class="strat" id="strat-market-making" data-title="Market Making">
+              <header class="strat__head"><span class="strat__kind">Microstructure</span><h3>Market Making</h3><p class="strat__lede">Provides liquidity by quoting both sides of a market.</p></header>
+              <dl class="strat__grid">
+                <div><dt>01 · What it captures</dt><dd>The bid-ask spread, net of losses to better-informed traders.</dd></div>
+                <div><dt>02 · Hypothesis</dt><dd>With good quote and inventory management, spread income exceeds adverse-selection losses.</dd></div>
+                <div><dt>03 · Data</dt><dd>High-frequency order-book, trade and quote data; latency measurements; fee schedules.</dd></div>
+                <div><dt>04 · Signal</dt><dd>Fair-value estimates, order-flow imbalance, and short-term volatility, used to set and skew quotes.</dd></div>
+                <div><dt>05 · Positions</dt><dd>Continuous two-sided quotes, skewed to manage inventory, within strict position limits.</dd></div>
+                <div><dt>06 · Risks</dt><dd>Adverse selection, inventory risk in fast markets, and technology or latency failures.</dd></div>
+                <div><dt>07 · How to test it</dt><dd>Order-book replay with queue-position-aware fill modelling.</dd></div>
+                <div><dt>08 · Limitations</dt><dd>Simple backtests overstate fills; realistic order-book simulation is difficult.</dd></div>
+              </dl>
+            </article>
+
+            <article class="strat" id="strat-portfolio" data-title="Portfolio Optimisation">
+              <header class="strat__head"><span class="strat__kind">Allocation</span><h3>Portfolio Optimisation</h3><p class="strat__lede">Combines signals and assets into one portfolio under risk and cost constraints.</p></header>
+              <dl class="strat__grid">
+                <div><dt>01 · What it captures</dt><dd>A better balance of expected return, risk, and trading cost for a given set of forecasts.</dd></div>
+                <div><dt>02 · Hypothesis</dt><dd>Modelling risk and costs explicitly improves the risk-adjusted outcome of the same signals.</dd></div>
+                <div><dt>03 · Data</dt><dd>Return forecasts, covariance estimates, transaction-cost models, and constraints.</dd></div>
+                <div><dt>04 · Signal</dt><dd>Not a signal itself: it takes signals as inputs and produces target weights.</dd></div>
+                <div><dt>05 · Positions</dt><dd>Mean-variance with shrinkage, risk parity, or robust methods, with turnover penalties.</dd></div>
+                <div><dt>06 · Risks</dt><dd>Estimation error amplified by the optimiser; concentration in a few positions.</dd></div>
+                <div><dt>07 · How to test it</dt><dd>Out-of-sample comparison against simple baselines such as equal or inverse-volatility weights.</dd></div>
+                <div><dt>08 · Limitations</dt><dd>Sophisticated optimisers often fail to beat naive allocation once estimation error is included.</dd></div>
+              </dl>
+            </article>
+
+            <article class="strat" id="strat-event" data-title="Event-Driven Research">
+              <header class="strat__head"><span class="strat__kind">Event studies</span><h3>Event-Driven Quantitative Research</h3><p class="strat__lede">Systematically studies price behaviour around defined events.</p></header>
+              <dl class="strat__grid">
+                <div><dt>01 · What it captures</dt><dd>Repeatable patterns around events such as earnings announcements, index changes, or corporate actions.</dd></div>
+                <div><dt>02 · Hypothesis</dt><dd>Markets process some kinds of information gradually, or face predictable flows around events.</dd></div>
+                <div><dt>03 · Data</dt><dd>Precisely timestamped event data, prices, estimates, and index-rebalance schedules.</dd></div>
+                <div><dt>04 · Signal</dt><dd>Measures of surprise, abnormal returns, and post-announcement drift.</dd></div>
+                <div><dt>05 · Positions</dt><dd>Positions opened around events with defined holding windows, hedged against market and sector.</dd></div>
+                <div><dt>06 · Risks</dt><dd>Timing errors, crowding around well-known events, and small samples per event type.</dd></div>
+                <div><dt>07 · How to test it</dt><dd>Event studies with correct timestamps — when information was public, not when it was recorded — and proper controls.</dd></div>
+                <div><dt>08 · Limitations</dt><dd>Revised or back-filled event data easily introduces look-ahead bias.</dd></div>
+              </dl>
+            </article>
+
+            <article class="strat" id="strat-ml" data-title="Machine Learning">
+              <header class="strat__head"><span class="strat__kind">Statistical learning</span><h3>Machine Learning</h3><p class="strat__lede">Applies statistical learning to forecasting and to combining signals.</p></header>
+              <dl class="strat__grid">
+                <div><dt>01 · What it captures</dt><dd>Nonlinear or interacting relationships that simpler models miss.</dd></div>
+                <div><dt>02 · Hypothesis</dt><dd>Some predictive structure in financial data is too complex for linear models but stable enough to learn.</dd></div>
+                <div><dt>03 · Data</dt><dd>Large feature sets — prices, fundamentals, alternative data — built strictly point-in-time.</dd></div>
+                <div><dt>04 · Signal</dt><dd>Model forecasts from methods such as regularised regression, gradient-boosted trees, or neural networks.</dd></div>
+                <div><dt>05 · Positions</dt><dd>Forecasts feed portfolio construction like any other signal.</dd></div>
+                <div><dt>06 · Risks</dt><dd>Overfitting, data leakage, instability when regimes change, and limited interpretability.</dd></div>
+                <div><dt>07 · How to test it</dt><dd>Purged and embargoed cross-validation, walk-forward evaluation, and comparison with simple baselines.</dd></div>
+                <div><dt>08 · Limitations</dt><dd>Financial data has a low signal-to-noise ratio, so flexible models fit noise easily.</dd></div>
+              </dl>
+            </article>
+
+            <article class="strat" id="strat-execution" data-title="Execution Algorithms">
+              <header class="strat__head"><span class="strat__kind">Implementation</span><h3>Execution Algorithms</h3><p class="strat__lede">Decides how to trade a target position — not what to trade.</p></header>
+              <dl class="strat__grid">
+                <div><dt>01 · What it captures</dt><dd>A lower total cost of reaching a target position: spread, market impact, and delay.</dd></div>
+                <div><dt>02 · Hypothesis</dt><dd>Schedules and order types that adapt to liquidity reduce implementation shortfall.</dd></div>
+                <div><dt>03 · Data</dt><dd>Order-book and trade data, historical fills, intraday volume profiles, and impact estimates.</dd></div>
+                <div><dt>04 · Signal</dt><dd>Short-term liquidity and price forecasts used to time child orders.</dd></div>
+                <div><dt>05 · Positions</dt><dd>Schedules such as VWAP, TWAP, or implementation-shortfall algorithms, with participation limits.</dd></div>
+                <div><dt>06 · Risks</dt><dd>Information leakage, underestimated impact, and adverse price moves during long schedules.</dd></div>
+                <div><dt>07 · How to test it</dt><dd>Transaction-cost analysis against the arrival price, ideally with controlled comparisons.</dd></div>
+                <div><dt>08 · Limitations</dt><dd>Market impact is hard to measure: the price path without your own trade is never observed.</dd></div>
+              </dl>
+            </article>
+
+          </div>
+        </div>
+        <p class="lib-note">Strategy descriptions summarise widely studied approaches in quantitative finance for educational purposes. They are not recommendations, and they do not describe positions ScaleX holds.</p>
+      </div>
+    </section>
+
+    <!-- ===================== Backtesting ===================== -->
+    <section class="section" id="backtesting" aria-labelledby="backtesting-title">
+      <div class="container">
+        <div class="section-head section-head--split">
+          <div>
+            <p class="eyebrow reveal">Validation</p>
+            <h2 class="h-1 reveal d1" id="backtesting-title">Backtesting is the beginning, not the conclusion.</h2>
+          </div>
+          <p class="section-head__lede reveal d2">A backtest shows what a rule would have done under stated assumptions. It does not show that the rule will work in live markets. The job of validation is to find out how easily a good-looking result falls apart.</p>
+        </div>
+
+        <figure class="wf reveal" aria-labelledby="wf-title">
+          <div class="wf__head">
+            <p class="wf__title" id="wf-title">Walk-forward analysis</p>
+            <p class="wf__tag">Illustrative schematic — not results</p>
+          </div>
+          <div class="wf__rows" role="img" aria-label="Five rolling folds. In each, a model is fitted on an in-sample window and tested on the out-of-sample window that follows; each fold moves forward in time. The final row shows live trading after the last fold, whose outcome is unknown in advance.">
+            <div class="wf__row"><span class="wf__label">Fold 1</span><span class="wf__track"><span class="wf__seg wf__seg--train"></span><span class="wf__seg wf__seg--test"></span></span></div>
+            <div class="wf__row"><span class="wf__label">Fold 2</span><span class="wf__track"><span class="wf__seg wf__seg--train"></span><span class="wf__seg wf__seg--test"></span></span></div>
+            <div class="wf__row"><span class="wf__label">Fold 3</span><span class="wf__track"><span class="wf__seg wf__seg--train"></span><span class="wf__seg wf__seg--test"></span></span></div>
+            <div class="wf__row"><span class="wf__label">Fold 4</span><span class="wf__track"><span class="wf__seg wf__seg--train"></span><span class="wf__seg wf__seg--test"></span></span></div>
+            <div class="wf__row"><span class="wf__label">Fold 5</span><span class="wf__track"><span class="wf__seg wf__seg--train"></span><span class="wf__seg wf__seg--test"></span></span></div>
+            <div class="wf__row"><span class="wf__label">Live</span><span class="wf__track"><span class="wf__seg wf__seg--live"></span></span></div>
+          </div>
+          <div class="wf__axis" aria-hidden="true"><span></span><span><span>past</span><span>time →</span><span>now</span></span></div>
+          <figcaption class="legend">
+            <span><i class="k-train"></i>In-sample: fit the model</span>
+            <span><i class="k-test"></i>Out-of-sample: evaluate it</span>
+            <span><i class="k-live"></i>Live trading: unknown in advance</span>
+          </figcaption>
+        </figure>
+
+        <div class="bt-cols">
+          <div class="bt-col reveal">
+            <h3 class="bt-col__title">Test design</h3>
+            <dl>
+              <div><dt>In-sample vs. out-of-sample</dt><dd>Fit on one period; judge on another the model has never seen.</dd></div>
+              <div><dt>Walk-forward analysis</dt><dd>Re-estimate on a rolling window and test on the period that follows, repeatedly.</dd></div>
+              <div><dt>Parameter sensitivity</dt><dd>A result that works for only one parameter value is probably noise.</dd></div>
+              <div><dt>Regime changes</dt><dd>Check behaviour across rate cycles, crises, and high- and low-volatility periods.</dd></div>
+            </dl>
+          </div>
+          <div class="bt-col reveal d1">
+            <h3 class="bt-col__title">Biases</h3>
+            <dl>
+              <div><dt>Look-ahead bias</dt><dd>Using information that was not available at the time of the decision.</dd></div>
+              <div><dt>Survivorship bias</dt><dd>Testing only on assets that still exist today and ignoring those that failed.</dd></div>
+              <div><dt>Data leakage</dt><dd>Test-period information seeping into model fitting through features or preprocessing.</dd></div>
+              <div><dt>Overfitting</dt><dd>Fitting noise. The more variants tried, the higher the bar for any single result.</dd></div>
+            </dl>
+          </div>
+          <div class="bt-col reveal d2">
+            <h3 class="bt-col__title">Frictions</h3>
+            <dl>
+              <div><dt>Transaction costs</dt><dd>Commissions, spreads, and fees — often enough to erase a gross effect.</dd></div>
+              <div><dt>Slippage</dt><dd>The gap between the price a backtest assumes and the price actually obtained.</dd></div>
+              <div><dt>Liquidity constraints</dt><dd>Positions must be tradable in size without moving the price against you.</dd></div>
+            </dl>
+          </div>
+        </div>
+
+        <div class="vs reveal">
+          <div>
+            <span class="vs__k">Historical simulation</span>
+            <h3>What a rule would have done</h3>
+            <p>Computed from historical data under stated assumptions about costs, timing, and execution. Useful for rejecting ideas; limited as evidence for accepting them.</p>
+          </div>
+          <div>
+            <span class="vs__k">Live trading performance</span>
+            <h3>What actually happened</h3>
+            <p>Results of real orders, with real costs and constraints. ScaleX labels every published result as one or the other. Everything published so far is historical simulation.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Risk ===================== -->
+    <section class="section section--soft" id="risk" aria-labelledby="risk-title">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow reveal">Risk management</p>
+          <h2 class="h-1 reveal d1" id="risk-title">A strategy is only as useful as its risk model.</h2>
+        </div>
+        <div class="risk-layout">
+          <figure class="corr reveal" aria-labelledby="corr-title">
+            <div class="corr__head">
+              <p class="corr__title" id="corr-title">Correlation between six signals</p>
+              <p class="corr__tag">Illustrative data</p>
+            </div>
+            <!-- Illustrative values only. Binned single-hue sequential scale; every value is also printed. -->
+            <div class="corr__grid" role="table" aria-label="Illustrative correlation matrix between six signals, S1 to S6">
+              <span class="corr__corner" role="columnheader" aria-hidden="true"></span>
+              <span class="corr__lab">S1</span><span class="corr__lab">S2</span><span class="corr__lab">S3</span><span class="corr__lab">S4</span><span class="corr__lab">S5</span><span class="corr__lab">S6</span>
+              <span class="corr__lab">S1</span><span class="c5" title="S1 × S1: 1.00">1.00</span><span class="c4" title="S1 × S2: 0.62">0.62</span><span class="c1" title="S1 × S3: 0.15">0.15</span><span class="c0" title="S1 × S4: 0.08">0.08</span><span class="c2" title="S1 × S5: 0.34">0.34</span><span class="c0" title="S1 × S6: 0.05">0.05</span>
+              <span class="corr__lab">S2</span><span class="c4" title="S2 × S1: 0.62">0.62</span><span class="c5" title="S2 × S2: 1.00">1.00</span><span class="c2" title="S2 × S3: 0.22">0.22</span><span class="c1" title="S2 × S4: 0.11">0.11</span><span class="c3" title="S2 × S5: 0.41">0.41</span><span class="c0" title="S2 × S6: 0.09">0.09</span>
+              <span class="corr__lab">S3</span><span class="c1" title="S3 × S1: 0.15">0.15</span><span class="c2" title="S3 × S2: 0.22">0.22</span><span class="c5" title="S3 × S3: 1.00">1.00</span><span class="c4" title="S3 × S4: 0.55">0.55</span><span class="c1" title="S3 × S5: 0.12">0.12</span><span class="c2" title="S3 × S6: 0.30">0.30</span>
+              <span class="corr__lab">S4</span><span class="c0" title="S4 × S1: 0.08">0.08</span><span class="c1" title="S4 × S2: 0.11">0.11</span><span class="c4" title="S4 × S3: 0.55">0.55</span><span class="c5" title="S4 × S4: 1.00">1.00</span><span class="c0" title="S4 × S5: 0.07">0.07</span><span class="c3" title="S4 × S6: 0.38">0.38</span>
+              <span class="corr__lab">S5</span><span class="c2" title="S5 × S1: 0.34">0.34</span><span class="c3" title="S5 × S2: 0.41">0.41</span><span class="c1" title="S5 × S3: 0.12">0.12</span><span class="c0" title="S5 × S4: 0.07">0.07</span><span class="c5" title="S5 × S5: 1.00">1.00</span><span class="c1" title="S5 × S6: 0.18">0.18</span>
+              <span class="corr__lab">S6</span><span class="c0" title="S6 × S1: 0.05">0.05</span><span class="c0" title="S6 × S2: 0.09">0.09</span><span class="c2" title="S6 × S3: 0.30">0.30</span><span class="c3" title="S6 × S4: 0.38">0.38</span><span class="c1" title="S6 × S5: 0.18">0.18</span><span class="c5" title="S6 × S6: 1.00">1.00</span>
+            </div>
+            <div class="corr__scale" aria-hidden="true"><span>0</span><span class="corr__ramp"><i class="c0"></i><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i><i class="c5"></i></span><span>1</span></div>
+            <figcaption class="corr__note">Two signals that look independent on paper can share risk. Here S1 and S2 (0.62) behave almost like one bet — and correlations tend to rise in market stress.</figcaption>
+          </figure>
+
+          <div>
+            <p class="lede reveal">A return forecast says what might be earned. A risk model says what could be lost, how quickly, and in which situations. We treat it as the part of a strategy that decides whether it can be used at all.</p>
+            <dl class="risk-list reveal d1">
+              <div><dt>Position sizing</dt><dd>How much capital each position receives, given its risk and conviction.</dd></div>
+              <div><dt>Volatility</dt><dd>Expected variability of returns; the usual basis for scaling positions.</dd></div>
+              <div><dt>Correlation</dt><dd>How positions move together — especially in stress, when correlations tend to rise.</dd></div>
+              <div><dt>Concentration</dt><dd>Exposure to a single asset, sector, factor, or idea.</dd></div>
+              <div><dt>Drawdown</dt><dd>Peak-to-trough loss, and how long recovery takes.</dd></div>
+              <div><dt>Liquidity</dt><dd>Whether positions can be reduced quickly without large costs.</dd></div>
+              <div><dt>Leverage</dt><dd>Borrowed exposure that magnifies both gains and losses.</dd></div>
+              <div><dt>Tail risk</dt><dd>Rare, extreme outcomes that normal-distribution models understate.</dd></div>
+              <div><dt>Model risk</dt><dd>The possibility that the model is wrong, or no longer applies.</dd></div>
+              <div><dt>Execution risk</dt><dd>Losses from failed, delayed, or badly priced trades.</dd></div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Data ===================== -->
+    <section class="section" id="data" aria-labelledby="data-title">
+      <div class="container">
+        <div class="section-head section-head--split">
+          <div>
+            <p class="eyebrow reveal">Market data</p>
+            <h2 class="h-1 reveal d1" id="data-title">Data is the raw material.</h2>
+          </div>
+          <p class="data-quote reveal d2">A sophisticated model cannot compensate for <em>flawed data.</em></p>
+        </div>
+        <p class="lede reveal">Most backtest errors begin in the data: a missing delisting, a restated earnings figure, a timestamp in the wrong time zone. In our published research, data handling is documented and the checks — including tests for look-ahead errors — are part of the code.</p>
+
+        <table class="datasets reveal">
+          <caption class="visually-hidden">Data types used in quantitative research, their uses, and the quality checks they require</caption>
+          <thead><tr><th scope="col">Data</th><th scope="col">Typical uses</th><th scope="col">Quality checks</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Historical prices</th><td data-label="Uses">Returns, signals, backtests</td><td data-label="Checks">Split and dividend adjustment; stale or erroneous prints; exchange calendars</td></tr>
+            <tr><th scope="row">Volume</th><td data-label="Uses">Liquidity and capacity estimates</td><td data-label="Checks">Consolidated vs. primary-exchange volume; outliers; reporting changes</td></tr>
+            <tr><th scope="row">Fundamentals</th><td data-label="Uses">Factor research, valuation and quality signals</td><td data-label="Checks">Point-in-time availability; restatements; reporting lags</td></tr>
+            <tr><th scope="row">Order book data</th><td data-label="Uses">Microstructure, execution, market making</td><td data-label="Checks">Timestamp precision and synchronisation; feed gaps; book reconstruction</td></tr>
+            <tr><th scope="row">Alternative data</th><td data-label="Uses">Signals from non-traditional sources</td><td data-label="Checks">Short histories; selection bias; licensing; stability of the source</td></tr>
+            <tr><th scope="row">Macroeconomic data</th><td data-label="Uses">Regime models, asset allocation</td><td data-label="Checks">First-release vs. revised values; release timing</td></tr>
+            <tr><th scope="row">Corporate actions</th><td data-label="Uses">Correct returns and universes</td><td data-label="Checks">Mergers, spin-offs, delistings and delisting returns, symbol changes</td></tr>
+            <tr><th scope="row">Volatility data</th><td data-label="Uses">Risk models, volatility strategies</td><td data-label="Checks">Surface interpolation; stale quotes; bid-ask filtering</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===================== Open source (Ctrl + C) ===================== -->
+    <section class="section section--soft" id="open-source" aria-labelledby="os-title">
+      <div class="container os-layout">
+        <div class="os-layout__intro">
+          <p class="eyebrow reveal">Ctrl + C · Open source</p>
+          <h2 class="h-1 reveal d1" id="os-title">Built in the open.</h2>
+          <p class="lede reveal d2">Quantitative research becomes more useful when methods can be inspected, reproduced, challenged, and improved.</p>
+          <p class="lede reveal d2"><strong>Ctrl + C</strong> is ScaleX's open-source programme: the code, data pipelines, tests, and tools behind our research, published so they can be copied, run, and checked.</p>
+          <div class="reveal d3">
+            <a class="btn" href="https://github.com/scalex-research" data-href="github" rel="noopener">
+              <svg class="icon icon--fill" aria-hidden="true"><use href="#i-github"/></svg>Explore GitHub <span class="arrow" aria-hidden="true">→</span>
+            </a>
+          </div>
+
+          <div class="terminal reveal d3" role="group" aria-label="Reproduce the momentum study">
+            <div class="terminal__bar" aria-hidden="true"><i></i><i></i><i></i><span>reproduce the experiment</span></div>
+<pre><code><span class="t-prompt">$ </span>git clone https://github.com/scalex-research/scalex-momentum-research
+<span class="t-prompt">$ </span>cd scalex-momentum-research
+<span class="t-prompt">$ </span>pip install -r requirements-lock.txt &amp;&amp; pip install -e . --no-deps
+<span class="t-prompt">$ </span>python scripts/download_data.py
+<span class="t-prompt">$ </span>python scripts/run_experiment.py
+<span class="t-prompt">$ </span>pytest   <span class="t-dim"># incl. look-ahead canaries</span></code></pre>
+          </div>
+        </div>
+
+        <div>
+          <ul class="repos">
+            <li class="repo reveal">
+              <div class="repo__head">
+                <svg class="icon" aria-hidden="true"><use href="#i-repo"/></svg>
+                <h3 class="repo__name"><a href="https://github.com/scalex-research/scalex-momentum-research" data-href="repo" data-repo="scalex-momentum-research" rel="noopener">scalex-momentum-research</a></h3>
+                <span class="badge repo__vis">Research</span>
+              </div>
+              <p class="repo__desc">Code, pre-registration, data pipeline, tests, and results for <em>Cross-Sectional Momentum Under Implementation Stress</em>.</p>
+              <ul class="repo__meta">
+                <li><span class="lang-dot" aria-hidden="true"></span>Python</li>
+                <li><svg class="icon" aria-hidden="true"><use href="#i-doc"/></svg>MIT licence</li>
+                <li><svg class="icon" aria-hidden="true"><use href="#i-tag"/></svg>v1.0.0 published</li>
+              </ul>
+            </li>
+            <!-- [REPOSITORY NAME] Placeholder slots: replace with real repositories, or delete. Do not add star counts by hand. -->
+            <li class="repo repo--ph reveal d1">
+              <div class="repo__head">
+                <svg class="icon" aria-hidden="true"><use href="#i-repo"/></svg>
+                <h3 class="repo__name"><span class="ph">[REPOSITORY NAME]</span></h3>
+                <span class="badge repo__vis">Backtesting</span>
+              </div>
+              <p class="repo__desc"><span class="ph">[DESCRIPTION]</span></p>
+              <ul class="repo__meta"><li><span class="ph">[LANGUAGE]</span></li><li><span class="ph">[STATUS]</span></li></ul>
+            </li>
+            <li class="repo repo--ph reveal">
+              <div class="repo__head">
+                <svg class="icon" aria-hidden="true"><use href="#i-repo"/></svg>
+                <h3 class="repo__name"><span class="ph">[REPOSITORY NAME]</span></h3>
+                <span class="badge repo__vis">Data</span>
+              </div>
+              <p class="repo__desc"><span class="ph">[DESCRIPTION]</span></p>
+              <ul class="repo__meta"><li><span class="ph">[LANGUAGE]</span></li><li><span class="ph">[STATUS]</span></li></ul>
+            </li>
+            <li class="repo repo--ph reveal d1">
+              <div class="repo__head">
+                <svg class="icon" aria-hidden="true"><use href="#i-repo"/></svg>
+                <h3 class="repo__name"><span class="ph">[REPOSITORY NAME]</span></h3>
+                <span class="badge repo__vis">Portfolio</span>
+              </div>
+              <p class="repo__desc"><span class="ph">[DESCRIPTION]</span></p>
+              <ul class="repo__meta"><li><span class="ph">[LANGUAGE]</span></li><li><span class="ph">[STATUS]</span></li></ul>
+            </li>
+          </ul>
+
+          <div class="os-cta reveal">
+            <p>Found a bug, a questionable assumption, or a result you cannot reproduce? Open an issue on the repository — reproduction reports are among the most useful contributions.</p>
+            <a class="link-arrow" href="https://github.com/scalex-research/scalex-momentum-research" data-href="repo" data-repo="scalex-momentum-research" rel="noopener">Explore the Repository <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Infrastructure ===================== -->
+    <section class="section" id="infrastructure" aria-labelledby="infra-title">
+      <div class="container">
+        <div class="infra-head">
+          <div>
+            <p class="eyebrow reveal">Infrastructure</p>
+            <h2 class="h-1 reveal d1" id="infra-title">Research needs infrastructure.</h2>
+          </div>
+          <div class="infra-head__text reveal d2">
+            <p>Quantitative research depends on more than mathematical models. Results are only as trustworthy as the systems that produce them: data pipelines, research environments, backtesting engines, risk checks, and monitoring.</p>
+            <p>This is the reference architecture our research is organised around. Components are documented and released through Ctrl + C when they are published.</p>
+          </div>
+        </div>
+
+        <ol class="arch reveal" aria-label="Reference architecture, in nine steps across four layers">
+          <li class="lane">
+            <p class="lane__title"><span>Data</span><span aria-hidden="true">L1</span></p>
+            <ol class="lane__nodes">
+              <li class="node"><span class="node__n">01</span><span class="node__name">Market Data</span><span class="node__desc">Prices, volume, fundamentals, order books, alternative data.</span></li>
+              <li class="node"><span class="node__n">02</span><span class="node__name">Data Pipeline</span><span class="node__desc">Cleaning, adjustment, point-in-time versioning, validation.</span></li>
+            </ol>
+          </li>
+          <li class="lane">
+            <p class="lane__title"><span>Research</span><span aria-hidden="true">L2</span></p>
+            <ol class="lane__nodes">
+              <li class="node"><span class="node__n">03</span><span class="node__name">Research Environment</span><span class="node__desc">Pinned dependencies, recorded configs, reproducible runs.</span></li>
+              <li class="node"><span class="node__n">04</span><span class="node__name">Signal Generation</span><span class="node__desc">Documented signal definitions, computed point-in-time.</span></li>
+              <li class="node"><span class="node__n">05</span><span class="node__name">Backtesting</span><span class="node__desc">Costs, timing, and constraints modelled explicitly.</span></li>
+            </ol>
+          </li>
+          <li class="lane">
+            <p class="lane__title"><span>Portfolio</span><span aria-hidden="true">L3</span></p>
+            <ol class="lane__nodes">
+              <li class="node"><span class="node__n">06</span><span class="node__name">Portfolio Construction</span><span class="node__desc">Combines signals into target weights under constraints.</span></li>
+              <li class="node"><span class="node__n">07</span><span class="node__name">Risk Engine</span><span class="node__desc">Exposure, limits, and stress tests before any order.</span></li>
+            </ol>
+          </li>
+          <li class="lane">
+            <p class="lane__title"><span>Production</span><span aria-hidden="true">L4</span></p>
+            <ol class="lane__nodes">
+              <li class="node"><span class="node__n">08</span><span class="node__name">Execution</span><span class="node__desc">Order scheduling, cost control, fill reconciliation.</span></li>
+              <li class="node"><span class="node__n">09</span><span class="node__name">Monitoring</span><span class="node__desc">Live behaviour compared with what research predicted.</span></li>
+            </ol>
+          </li>
+        </ol>
+        <p class="arch__loop">
+          <svg class="icon" aria-hidden="true"><use href="#i-loop"/></svg>
+          Monitoring feeds back into research. When live behaviour diverges from the model, the hypothesis is re-examined.
+        </p>
+      </div>
+    </section>
+
+    <!-- ===================== Principles ===================== -->
+    <section class="manifesto" id="principles" aria-labelledby="principles-title">
+      <div class="container">
+        <div class="manifesto__head">
+          <h2 class="eyebrow" id="principles-title">Principles</h2>
+          <p class="manifesto__sig" aria-hidden="true">07 statements</p>
+        </div>
+        <ol class="manifesto__list">
+          <li class="manifesto__item"><span class="manifesto__num">01</span><p class="manifesto__line"><em>Evidence</em> over intuition.</p></li>
+          <li class="manifesto__item"><span class="manifesto__num">02</span><p class="manifesto__line"><em>Reproducibility</em> over mystery.</p></li>
+          <li class="manifesto__item"><span class="manifesto__num">03</span><p class="manifesto__line"><em>Robustness</em> over optimisation.</p></li>
+          <li class="manifesto__item"><span class="manifesto__num">04</span><p class="manifesto__line"><em>Risk</em> before returns.</p></li>
+          <li class="manifesto__item"><span class="manifesto__num">05</span><p class="manifesto__line"><em>Research</em> before deployment.</p></li>
+          <li class="manifesto__item"><span class="manifesto__num">06</span><p class="manifesto__line"><em>Open source</em> where possible.</p></li>
+          <li class="manifesto__item"><span class="manifesto__num">07</span><p class="manifesto__line">Simple models deserve <em>serious testing.</em></p></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===================== About ===================== -->
+    <section class="section" id="about" aria-labelledby="about-title">
+      <div class="container">
+        <div class="about">
+          <div>
+            <p class="eyebrow reveal">About ScaleX</p>
+            <h2 class="h-1 reveal d1" id="about-title">Why open quantitative finance?</h2>
+            <p class="about__quote reveal d2">Financial research has traditionally been difficult to inspect from the outside. We believe many of the tools, methods, and ideas used in quantitative finance can benefit from the same principles that transformed software engineering: <mark>reproducibility, collaboration, transparency, and rigorous testing.</mark></p>
+          </div>
+          <div class="about__body reveal d2">
+            <p>ScaleX is building quantitative finance in the open. We research systematic strategies the way an engineering team builds software: with versioned code, written plans, automated tests, and a public record of what did not work.</p>
+            <p>Openness raises the standard. A result that anyone can rerun has to be careful about data, costs, and statistics — and when it is wrong, someone can find out.</p>
+            <dl class="names">
+              <div><dt>ScaleX</dt><dd>The firm.</dd></div>
+              <div><dt>ScaleX Research</dt><dd>The research group. Publishes studies, with pre-registration, code, and limitations.</dd></div>
+              <div><dt>Ctrl + C</dt><dd>The open-source programme: the code and tools behind the research, published to be copied, run, and checked.</dd></div>
+            </dl>
+          </div>
+        </div>
+
+        <!-- [TEAM MEMBER] / [BIO] Team placeholders: replace with real people, or delete this list. -->
+        <h3 class="visually-hidden">Team</h3>
+        <ul class="team">
+          <li class="member reveal"><div class="member__avatar" aria-hidden="true"></div><h4><span class="ph">[TEAM MEMBER]</span></h4><p><span class="ph">[ROLE]</span></p><p><span class="ph">[BIO]</span></p></li>
+          <li class="member reveal d1"><div class="member__avatar" aria-hidden="true"></div><h4><span class="ph">[TEAM MEMBER]</span></h4><p><span class="ph">[ROLE]</span></p><p><span class="ph">[BIO]</span></p></li>
+          <li class="member reveal d2"><div class="member__avatar" aria-hidden="true"></div><h4><span class="ph">[TEAM MEMBER]</span></h4><p><span class="ph">[ROLE]</span></p><p><span class="ph">[BIO]</span></p></li>
+        </ul>
+
+        <div class="contact-band reveal" id="contact">
+          <div>
+            <h3 class="h-2">Contact</h3>
+            <p>Questions about a study are best asked as an issue on its repository, where the answer helps the next reader. For everything else, write to <a class="text-accent" href="#contact" data-href="email" data-text="email"><span class="ph">[CONTACT EMAIL]</span></a>.</p>
+          </div>
+          <div class="contact-band__actions">
+            <a class="btn" href="https://github.com/scalex-research" data-href="github" rel="noopener"><svg class="icon icon--fill" aria-hidden="true"><use href="#i-github"/></svg>ScaleX Research on GitHub</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Legal ===================== -->
+    <section class="section section--soft section--tight" id="legal" aria-labelledby="legal-title">
+      <div class="container legal">
+        <div class="legal__disclaimer">
+          <p class="eyebrow">Legal</p>
+          <h2 class="h-2" id="legal-title">Important information</h2>
+          <p class="text-muted">ScaleX publishes research for educational and informational purposes.</p>
+          <ul>
+            <li>Nothing on this website is personalised investment advice, an offer, or a solicitation.</li>
+            <li>Historical backtests are not guarantees of future results.</li>
+            <li>Simulated results have inherent limitations, which each publication describes.</li>
+            <li>Trading involves risk, including the loss of capital.</li>
+          </ul>
+        </div>
+        <div>
+          <details class="disclosure" id="privacy">
+            <summary>Privacy</summary>
+            <div class="prose">
+              <p>This website does not track you. It sets no cookies, uses no analytics or tag managers, no advertising or social-media pixels, no fingerprinting or session recording, and no browser storage. It loads no scripts, fonts, or other resources from third parties, and it has no forms.</p>
+              <h3>Hosting</h3>
+              <p>The site is hosted on GitHub Pages. GitHub logs visitors' IP addresses for security purposes, as described in the <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener">GitHub General Privacy Statement</a>. ScaleX does not receive this data.</p>
+              <h3>Email</h3>
+              <p>If you email us, we receive your address and your message and use them only to reply. <span class="ph">[RETENTION PERIOD AND EMAIL PROVIDER]</span></p>
+              <h3>Your rights and responsibility</h3>
+              <p>Depending on where you live, you may have rights to access, correct, or delete personal data we hold, which in practice means email correspondence. <span class="ph">[APPLICABLE LAW]</span> · <span class="ph">[LEGAL ENTITY NAME AND ADDRESS]</span> · Last updated <span class="ph">[DATE]</span></p>
+            </div>
+          </details>
+          <details class="disclosure" id="terms">
+            <summary>Terms of use</summary>
+            <div class="prose">
+              <h3>No investment advice</h3>
+              <p>Research, code, and commentary on this website are published for research and educational purposes only. They are not investment, legal, or tax advice, and not an offer or solicitation to buy or sell any security, financial instrument, or service.</p>
+              <h3>No guarantee of results</h3>
+              <p>Backtests and simulations have inherent limitations. Simulated past results do not indicate or guarantee future outcomes. You are solely responsible for decisions you make using this content.</p>
+              <h3>Provided as is</h3>
+              <p>Content is provided without warranties of any kind, including accuracy, completeness, or fitness for a particular purpose. <span class="ph">[LIMITATION OF LIABILITY]</span></p>
+              <h3>Open-source software</h3>
+              <p>Code in ScaleX repositories is governed by the licence in each repository (for example, MIT for scalex-momentum-research).</p>
+              <h3>Governing law</h3>
+              <p><span class="ph">[JURISDICTION]</span> · Last updated <span class="ph">[DATE]</span></p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== Footer ===================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer__top">
+        <div>
+          <a class="brand" href="#top" aria-label="ScaleX — back to top">
+            <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+              <rect x="3.5" y="9.5" width="17" height="19" rx="4" fill="none" stroke="#0b1b2b" stroke-width="1.8"/>
+              <rect x="11" y="3" width="18" height="20" rx="4.5" fill="#3a9bdc"/>
+              <path d="M16 10.5h8M16 15h5" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+            <span>Scale<span class="brand__x">X</span></span>
+          </a>
+          <p class="footer__tagline">Open-source quantitative research, systematic strategies, and trading infrastructure.</p>
+        </div>
+        <div class="footer__cols">
+          <nav aria-label="Research">
+            <h2 class="footer__title">Research</h2>
+            <ul>
+              <li><a href="#process">How we research</a></li>
+              <li><a href="#research">Research</a></li>
+              <li><a href="#strategies">Strategies</a></li>
+              <li><a href="#backtesting">Backtesting</a></li>
+              <li><a href="#risk">Risk</a></li>
+            </ul>
+          </nav>
+          <nav aria-label="Engineering">
+            <h2 class="footer__title">Engineering</h2>
+            <ul>
+              <li><a href="#data">Data</a></li>
+              <li><a href="#open-source">Ctrl + C</a></li>
+              <li><a href="#infrastructure">Infrastructure</a></li>
+              <li><a href="https://github.com/scalex-research" data-href="github" rel="noopener">GitHub</a></li>
+            </ul>
+          </nav>
+          <nav aria-label="Firm">
+            <h2 class="footer__title">Firm</h2>
+            <ul>
+              <li><a href="#principles">Principles</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#contact">Contact</a></li>
+              <li><a href="#privacy">Privacy</a></li>
+              <li><a href="#terms">Terms</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+      <div class="footer__legal">
+        <p>© <span data-year>2026</span> ScaleX</p>
+        <p class="footer__privacy"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg>No cookies. No analytics. No trackers.</p>
+      </div>
+      <p class="footer__disclaimer">Research is published for educational and informational purposes and is not investment advice. Backtests are historical simulations with inherent limitations, not records of live trading. Trading involves risk. <a href="#legal">Important information</a></p>
+    </div>
+  </footer>
+</body>
+</html>

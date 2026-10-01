@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Security: only same-origin resources may load. No third-party scripts, fonts, or trackers. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <title>Cross-Sectional Momentum Under Implementation Stress — ScaleX Research</title>
+  <meta name="description" content="A pre-registered test of 12-1 industry momentum, 1927–2026: the gross effect is robust; the net-of-cost effect is fragile and only partially robust to reasonable implementation choices.">
+  <link rel="canonical" href="https://[DOMAIN]/research/cross-sectional-momentum-under-implementation-stress.html">
+  <meta name="theme-color" content="#f3f9fe">
+  <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="ScaleX">
+  <meta property="og:title" content="Cross-Sectional Momentum Under Implementation Stress">
+  <meta property="og:description" content="Gross industry momentum is robust; net of costs it is fragile. A pre-registered robustness study with full code.">
+  <meta property="og:url" content="https://[DOMAIN]/research/cross-sectional-momentum-under-implementation-stress.html">
+  <meta property="og:image" content="https://[DOMAIN]/research/cross-sectional-momentum/fig06_robustness.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Structured metadata (mirrors publication.yaml in the research repository) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "Cross-Sectional Momentum Under Implementation Stress",
+    "author": { "@type": "Organization", "name": "ScaleX Research" },
+    "datePublished": "2026-10-01",
+    "version": "1.0.0",
+    "about": ["momentum", "factor models", "transaction costs", "robustness"],
+    "isBasedOn": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html",
+    "codeRepository": "https://github.com/scalex-research/scalex-momentum-research",
+    "license": "https://opensource.org/licenses/MIT"
+  }
+  </script>
+
+  <link rel="preload" href="../assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../css/styles.css">
+  <script src="../js/config.js"></script>
+  <script src="../js/main.js" defer></script>
+</head>
+<body>
+  <!-- Icon sprite: referenced below with <use href="#i-…">. Decorative only. -->
+  <svg width="0" height="0" class="visually-hidden" aria-hidden="true" focusable="false">
+    <symbol id="i-github" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></symbol>
+    <symbol id="i-repo" viewBox="0 0 24 24"><path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5v-15ZM5 19.5A1.5 1.5 0 0 0 6.5 21H19"/></symbol>
+    <symbol id="i-doc" viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7zM14 3v4h4M10 12h5M10 16h5"/></symbol>
+    <symbol id="i-tag" viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-8 8L3 12Z"/><path d="M7.5 7.5h.01"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.4 7.5 9.5 4.3-1.1 7.5-4.9 7.5-9.5V6L12 3Z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-loop" viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5.3L20 9M20 4v5h-5M20 12a8 8 0 0 1-14 5.3L4 15M4 20v-5h5"/></symbol>
+  </svg>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ===================== Header ===================== -->
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="../index.html" aria-label="ScaleX — home">
+        <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <rect x="3.5" y="9.5" width="17" height="19" rx="4" fill="none" stroke="#0b1b2b" stroke-width="1.8"/>
+          <rect x="11" y="3" width="18" height="20" rx="4.5" fill="#3a9bdc"/>
+          <path d="M16 10.5h8M16 15h5" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        <span>Scale<span class="brand__x">X</span></span>
+      </a>
+
+      <nav class="nav__links" aria-label="Primary">
+        <a href="../index.html#process">Process</a>
+        <a href="../index.html#research">Research</a>
+        <a href="../index.html#strategies">Strategies</a>
+        <a href="../index.html#open-source">Open Source</a>
+        <a href="../index.html#infrastructure">Infrastructure</a>
+        <a href="../index.html#about">About</a>
+      </nav>
+
+      <div class="nav__utility">
+        <a href="https://github.com/scalex-research" data-href="github" rel="noopener">
+          <svg class="icon icon--fill" aria-hidden="true"><use href="#i-github"/></svg>GitHub
+        </a>
+        <a class="btn btn--sm" href="../index.html#research">Explore Research</a>
+      </div>
+
+      <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
+        <span class="nav__toggle-bar"></span>
+        <span class="nav__toggle-bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <nav aria-label="Mobile">
+      <ul class="mobile-menu__links">
+        <li><a href="../index.html#process">How we research</a></li>
+        <li><a href="../index.html#research">Research</a></li>
+        <li><a href="../index.html#strategies">Strategy research</a></li>
+        <li><a href="../index.html#backtesting">Backtesting</a></li>
+        <li><a href="../index.html#risk">Risk</a></li>
+        <li><a href="../index.html#data">Data</a></li>
+        <li><a href="../index.html#open-source">Open source</a></li>
+        <li><a href="../index.html#infrastructure">Infrastructure</a></li>
+        <li><a href="../index.html#principles">Principles</a></li>
+        <li><a href="../index.html#about">About</a></li>
+      </ul>
+    </nav>
+    <div class="mobile-menu__actions">
+      <a class="btn" href="../index.html#research">Explore Research</a>
+      <a class="btn btn--ghost" href="https://github.com/scalex-research" data-href="github" rel="noopener">
+        <svg class="icon icon--fill" aria-hidden="true"><use href="#i-github"/></svg>View GitHub
+      </a>
+    </div>
+  </div>
+
+  <main id="main">
+    <section class="page-hero" aria-labelledby="page-title">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../index.html">Home</a><span aria-hidden="true">/</span><a href="../index.html#research">Research</a><span aria-hidden="true">/</span><span>Factor Research</span></nav>
+        <h1 class="h-1 h-1--publication" id="page-title">Cross-Sectional Momentum Under Implementation Stress</h1>
+        <p class="lede">Does a classical momentum signal stay meaningful when reasonable implementation choices change? In US industry portfolios from 1927 to 2026, the gross effect is robust. Net of trading costs it is fragile, and by our pre-registered criterion only partially robust.</p>
+        <div class="pub-meta">
+          <span><strong>Published</strong> <time datetime="2026-10-01">2026-10-01</time></span>
+          <span><strong>Version</strong> 1.0.0</span>
+          <span><strong>Authors</strong> ScaleX Research</span>
+          <span><strong>Category</strong> Factor Research</span>
+          <span><strong>Data</strong> Kenneth R. French Data Library (CRSP 202608)</span>
+        </div>
+        <div class="pub-actions">
+          <a class="btn" href="cross-sectional-momentum/research_note.pdf">Read the research note (PDF)</a>
+          <a class="btn btn--ghost" href="https://github.com/scalex-research/scalex-momentum-research" data-href="repo" data-repo="scalex-momentum-research" rel="noopener">
+            <svg class="icon icon--fill" aria-hidden="true"><use href="#i-github"/></svg>Code &amp; data pipeline
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <article class="article">
+          <p class="disclaimer-box"><strong>Research only.</strong> This publication is for research and educational purposes. It is not investment advice, an offer, or a recommendation. All returns are simulated from historical data under stated assumptions. Simulated past results do not guarantee future performance, and the assumptions and limitations below materially affect the conclusions.</p>
+
+          <h2 id="abstract">Abstract</h2>
+          <p>We test a classical cross-sectional momentum signal on the 49 US industry portfolios of the Kenneth R. French Data Library, with holding months from July 1927 to August 2026 (1,190 months). The signal is the 12-month return skipping the latest month; the portfolio is long the top quintile and short the bottom quintile, rebalanced monthly. We fixed the specification, 20 one-at-a-time variations, the statistical tests and a decision rule in writing before computing any result.</p>
+          <p>Before costs, the long-short portfolio earned <strong>7.95% a year</strong> (Newey-West t&nbsp;=&nbsp;4.59). After an assumed 25&nbsp;bps per unit of turnover it earned <strong>4.96%</strong> (t&nbsp;=&nbsp;2.83). Corrected for testing 21 specifications, the net result is not significant at 5% (Holm-adjusted p&nbsp;=&nbsp;0.052).</p>
+          <p>The gross effect is significant in 15 of 16 non-cost variations. The net effect disappears with 3- and 6-month lookbacks, with the coarsest industry universe, and at costs above about 67&nbsp;bps. It is absent after market declines.</p>
+
+          <div class="verdict">
+            <p><strong>Pre-registered verdict: partially robust.</strong> The primary net result is positive and significant at the single-test level, and positive in all three subperiods. But only 11 of 16 non-cost variations leave the conclusion unchanged, short of the 12 required.</p>
+          </div>
+
+          <h2 id="question">Research question</h2>
+          <p>Does a simple cross-sectional momentum signal remain statistically and economically meaningful when we vary universe construction, ranking methodology, portfolio formation, transaction costs, holding period and other implementation choices? We do not ask whether momentum exists. We measure how much the answer depends on choices a reasonable researcher might make differently.</p>
+
+          <h2 id="results">Primary result</h2>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr><th scope="col">Portfolio</th><th scope="col">Ann. mean</th><th scope="col">HAC t</th><th scope="col">Sharpe [95% CI]</th><th scope="col">Max drawdown</th></tr></thead>
+              <tbody>
+                <tr><td>Long-short, gross</td><td>7.95%</td><td>4.59</td><td>0.45 [0.23, 0.71]</td><td>−87.3%</td></tr>
+                <tr><td>Long-short, net of 25 bps</td><td>4.96%</td><td>2.83</td><td>0.28 [0.08, 0.51]</td><td>−91.0%</td></tr>
+                <tr><td>Market (CRSP value-weighted), excess of T-bill</td><td>8.27%</td><td>4.33</td><td>0.45</td><td>−83.7%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note">Holding months 1927-07 to 2026-08. Newey-West standard errors (6 lags). Sharpe intervals from a stationary block bootstrap. Average turnover is 1.00 per month (sum of absolute weight changes across both legs); at 25 bps this costs 2.99% a year.</p>
+
+          <figure class="fig">
+            <img src="cross-sectional-momentum/fig01_cumulative.png" alt="Log-scale cumulative growth of $1 for the long-short portfolio gross and net of costs, and for the market, 1927 to 2026. The long-short lines fall sharply in the early 1930s, then rise steadily, with a large drop around 2009." width="1600" height="880" loading="lazy">
+            <figcaption>Figure 1. Cumulative growth of $1, log scale. Long-short returns are zero-investment returns. Source: Kenneth R. French Data Library; ScaleX calculations.</figcaption>
+          </figure>
+
+          <figure class="fig">
+            <img src="cross-sectional-momentum/fig10_quintiles.png" alt="Bar chart of annualised mean excess return by momentum quintile, rising from losers to winners." width="1600" height="880" loading="lazy">
+            <figcaption>Figure 2. Average excess return by momentum quintile (long-only, gross). The spread is monotonic from losers to winners.</figcaption>
+          </figure>
+
+          <h2 id="robustness">Robustness: one change at a time</h2>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr><th scope="col">Variation</th><th scope="col">Gross (t)</th><th scope="col">Net (t)</th><th scope="col">Holm p (net)</th><th scope="col">Conclusion changes?</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Primary: 12-1, quintiles, 1-month, 49 ind.</strong></td><td>7.95% (4.59)</td><td>4.96% (2.83)</td><td>0.052</td><td>–</td></tr>
+                <tr><td>Signal 3-0</td><td>3.76% (2.47)</td><td>−1.76% (−1.13)</td><td>1.000</td><td><strong>yes</strong></td></tr>
+                <tr><td>Signal 3-1</td><td>1.14% (0.70)</td><td>−5.56% (−3.38)</td><td>0.012</td><td><strong>yes</strong></td></tr>
+                <tr><td>Signal 6-0</td><td>4.86% (2.68)</td><td>0.87% (0.47)</td><td>1.000</td><td><strong>yes</strong></td></tr>
+                <tr><td>Signal 6-1</td><td>4.47% (2.53)</td><td>0.11% (0.06)</td><td>1.000</td><td><strong>yes</strong></td></tr>
+                <tr><td>Signal 12-0</td><td>8.68% (4.78)</td><td>5.81% (3.15)</td><td>0.021</td><td>no</td></tr>
+                <tr><td>3-month holding</td><td>7.32% (4.49)</td><td>5.54% (3.36)</td><td>0.012</td><td>no</td></tr>
+                <tr><td>6-month holding</td><td>6.15% (3.90)</td><td>4.84% (3.04)</td><td>0.028</td><td>no</td></tr>
+                <tr><td>Terciles</td><td>6.56% (5.12)</td><td>4.20% (3.24)</td><td>0.018</td><td>no</td></tr>
+                <tr><td>Deciles</td><td>11.34% (4.87)</td><td>7.55% (3.18)</td><td>0.021</td><td>no</td></tr>
+                <tr><td>Inverse-volatility weights</td><td>7.34% (4.52)</td><td>4.08% (2.48)</td><td>0.104</td><td>no</td></tr>
+                <tr><td>49 industries, equal-weighted returns</td><td>10.92% (6.59)</td><td>8.11% (4.85)</td><td>&lt;0.001</td><td>no</td></tr>
+                <tr><td>30 industries</td><td>7.65% (4.59)</td><td>4.72% (2.80)</td><td>0.052</td><td>no</td></tr>
+                <tr><td>17 industries</td><td>6.29% (4.01)</td><td>3.37% (2.12)</td><td>0.205</td><td>no</td></tr>
+                <tr><td>12 industries</td><td>5.40% (3.67)</td><td>2.31% (1.54)</td><td>0.616</td><td><strong>yes</strong></td></tr>
+                <tr><td>Cost 10 bps</td><td>7.95% (4.59)</td><td>6.75% (3.88)</td><td>0.002</td><td>no</td></tr>
+                <tr><td>Cost 50 bps</td><td>7.95% (4.59)</td><td>1.97% (1.11)</td><td>1.000</td><td><strong>yes</strong></td></tr>
+                <tr><td>Cost 100 bps</td><td>7.95% (4.59)</td><td>−4.00% (−2.19)</td><td>0.200</td><td><strong>yes</strong></td></tr>
+                <tr><td>Winsorised 1%/99%</td><td>9.11% (6.24)</td><td>6.13% (4.17)</td><td>0.001</td><td>no</td></tr>
+                <tr><td>Post-1963 formation dates</td><td>8.32% (3.99)</td><td>5.38% (2.56)</td><td>0.095</td><td>no</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note">Annualised means; HAC t-statistics in brackets. Net at 25 bps unless the row changes the cost (the 0 bps row equals gross and is omitted). "Conclusion changes" means the sign or the 5% significance of the net mean differs from the primary (rule fixed in advance; the pre-registered verdict counts only the 16 non-cost variations). Full table: <a href="https://github.com/scalex-research/scalex-momentum-research/blob/main/results/tables/robustness.md" data-href="repo" data-repo="scalex-momentum-research" data-repo-path="/blob/main/results/tables/robustness.md" rel="noopener">results/tables/robustness.md</a>.</p>
+
+          <figure class="fig">
+            <img src="cross-sectional-momentum/fig06_robustness.png" alt="Forest plot of annualised mean long-short returns, gross and net, with 95% confidence intervals, for the primary specification and 16 variations. Short lookbacks (3 and 6 months) have net intervals spanning or below zero." width="1600" height="1440" loading="lazy">
+            <figcaption>Figure 3. Robustness forest plot: gross (circles) and net (squares) annualised means, 95% Newey-West intervals.</figcaption>
+          </figure>
+
+          <figure class="fig">
+            <img src="cross-sectional-momentum/fig08_cost_sensitivity.png" alt="Line chart of annualised mean net return against assumed cost from 0 to 100 bps for 1-, 3- and 6-month holding periods. The 1-month line crosses zero near 67 bps; longer holding periods decline more slowly." width="1600" height="880" loading="lazy">
+            <figcaption>Figure 4. Sensitivity to the cost assumption. Longer holding periods trade less and degrade more slowly.</figcaption>
+          </figure>
+
+          <h2 id="stability">Stability over time and market states</h2>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr><th scope="col">Period / state at formation</th><th scope="col">Months</th><th scope="col">Gross</th><th scope="col">Net (t)</th></tr></thead>
+              <tbody>
+                <tr><td>1927-07 – 1960-07</td><td>397</td><td>6.40%</td><td>3.29% (0.98)</td></tr>
+                <tr><td>1960-08 – 1993-08</td><td>397</td><td>11.09%</td><td>8.32% (3.30)</td></tr>
+                <tr><td>1993-09 – 2026-08</td><td>396</td><td>6.34%</td><td>3.27% (1.04)</td></tr>
+                <tr><td>After a 36-month market gain</td><td>986</td><td>8.93%</td><td>6.04% (3.95)</td></tr>
+                <tr><td>After a 36-month market loss</td><td>180</td><td>−1.54%</td><td>−5.15% (−0.70)</td></tr>
+                <tr><td>Low market volatility</td><td>661</td><td>10.10%</td><td>7.21% (4.42)</td></tr>
+                <tr><td>High market volatility</td><td>470</td><td>2.21%</td><td>−0.94% (−0.26)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note">Subperiods are three equal-length blocks, fixed in advance. States use only data available at the formation month.</p>
+
+          <h2 id="does-not-work">What does not work</h2>
+          <ul>
+            <li><strong>Shorter lookbacks.</strong> The 3- and 6-month signals lose net significance; 3-1 loses money with confidence (−5.56% a year, t&nbsp;=&nbsp;−3.38).</li>
+            <li><strong>Multiple-testing correction.</strong> The primary net result does not survive it (Holm p&nbsp;=&nbsp;0.052).</li>
+            <li><strong>Higher costs.</strong> At 50 bps the net effect is insignificant; at 100 bps it is significantly negative.</li>
+            <li><strong>Crashes.</strong> The worst month was −64.4% net, and the maximum drawdown −91.0%. Losses cluster after market declines, where the strategy earned nothing on average.</li>
+            <li><strong>Recent decades.</strong> The most recent third of the sample (1993–2026) is not individually significant net of costs.</li>
+          </ul>
+
+          <h2 id="limitations">Limitations</h2>
+          <ul>
+            <li><strong>Industries, not stocks.</strong> These are industry portfolios, not the individual stocks of the classical literature. Stock-level data (CRSP) are proprietary.</li>
+            <li><strong>Thin early industries.</strong> Several pre-1960 "industries" contain one or two firms. An exploratory filter excluding them leaves the result essentially unchanged (4.97% net, t&nbsp;=&nbsp;3.01).</li>
+            <li><strong>Stylised costs.</strong> The cost model is a flat charge per dollar traded. It ignores market impact, short-sale constraints, borrow fees and the much higher costs of the early sample.</li>
+            <li><strong>Not out-of-sample.</strong> The sample overlaps the data on which momentum was discovered, so this is not independent evidence.</li>
+          </ul>
+          <p>See the <a href="https://github.com/scalex-research/scalex-momentum-research/blob/main/docs/limitations.md" data-href="repo" data-repo="scalex-momentum-research" data-repo-path="/blob/main/docs/limitations.md" rel="noopener">full limitations</a>.</p>
+
+          <h2 id="reproduce">Reproduce</h2>
+          <div class="terminal" role="region" aria-label="Reproduction commands">
+            <div class="terminal__bar" aria-hidden="true"><i></i><i></i><i></i><span>~/scalex-momentum-research</span></div>
+<pre><span class="t-prompt">$ </span>pip install -r requirements-lock.txt &amp;&amp; pip install -e . --no-deps
+<span class="t-prompt">$ </span>python scripts/download_data.py      <span class="t-dim"># French Data Library, not redistributed</span>
+<span class="t-prompt">$ </span>python scripts/run_experiment.py     <span class="t-dim"># every number in the note</span>
+<span class="t-prompt">$ </span>python scripts/generate_figures.py
+<span class="t-prompt">$ </span>pytest                               <span class="t-dim"># incl. look-ahead canaries</span></pre>
+          </div>
+
+          <h2 id="documents">Documents</h2>
+          <nav class="doc-links" aria-label="Publication documents">
+            <a href="cross-sectional-momentum/research_note.pdf">Research note (PDF)<span>Full paper, all sections</span></a>
+            <a href="https://github.com/scalex-research/scalex-momentum-research" data-href="repo" data-repo="scalex-momentum-research" rel="noopener">GitHub repository<span>Code, configs, tests, results</span></a>
+            <a href="https://github.com/scalex-research/scalex-momentum-research/blob/main/docs/preregistration.md" data-href="repo" data-repo="scalex-momentum-research" data-repo-path="/blob/main/docs/preregistration.md" rel="noopener">Pre-registration<span>Plan fixed before results</span></a>
+            <a href="https://github.com/scalex-research/scalex-momentum-research/blob/main/docs/methodology.md" data-href="repo" data-repo="scalex-momentum-research" data-repo-path="/blob/main/docs/methodology.md" rel="noopener">Methodology<span>Timing, signals, portfolios, statistics</span></a>
+            <a href="https://github.com/scalex-research/scalex-momentum-research/blob/main/docs/data.md" data-href="repo" data-repo="scalex-momentum-research" data-repo-path="/blob/main/docs/data.md" rel="noopener">Data documentation<span>Source, coverage, licensing, caveats</span></a>
+            <a href="https://github.com/scalex-research/scalex-momentum-research/blob/main/docs/reproducibility.md" data-href="repo" data-repo="scalex-momentum-research" data-repo-path="/blob/main/docs/reproducibility.md" rel="noopener">Reproducibility<span>Environment, versions, data vintage</span></a>
+            <a href="https://github.com/scalex-research/scalex-momentum-research/tree/main/results/tables" data-href="repo" data-repo="scalex-momentum-research" data-repo-path="/tree/main/results/tables" rel="noopener">Tables<span>CSV and Markdown</span></a>
+            <a href="https://github.com/scalex-research/scalex-momentum-research/tree/main/results/figures" data-href="repo" data-repo="scalex-momentum-research" data-repo-path="/tree/main/results/figures" rel="noopener">Figures<span>All ten charts</span></a>
+          </nav>
+
+          <h2 id="cite">Cite</h2>
+          <p>ScaleX Research (2026). <em>Cross-Sectional Momentum Under Implementation Stress</em>, v1.0.0. Code, data pipeline and results: see the GitHub repository above.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== Footer ===================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer__top">
+        <div>
+          <a class="brand" href="../index.html" aria-label="ScaleX — home">
+            <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+              <rect x="3.5" y="9.5" width="17" height="19" rx="4" fill="none" stroke="#0b1b2b" stroke-width="1.8"/>
+              <rect x="11" y="3" width="18" height="20" rx="4.5" fill="#3a9bdc"/>
+              <path d="M16 10.5h8M16 15h5" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+            <span>Scale<span class="brand__x">X</span></span>
+          </a>
+          <p class="footer__tagline">Open-source quantitative research, systematic strategies, and trading infrastructure.</p>
+        </div>
+        <div class="footer__cols">
+          <nav aria-label="Research">
+            <h2 class="footer__title">Research</h2>
+            <ul>
+              <li><a href="../index.html#process">How we research</a></li>
+              <li><a href="../index.html#research">Research</a></li>
+              <li><a href="../index.html#strategies">Strategies</a></li>
+              <li><a href="../index.html#backtesting">Backtesting</a></li>
+              <li><a href="../index.html#risk">Risk</a></li>
+            </ul>
+          </nav>
+          <nav aria-label="Engineering">
+            <h2 class="footer__title">Engineering</h2>
+            <ul>
+              <li><a href="../index.html#data">Data</a></li>
+              <li><a href="../index.html#open-source">Ctrl + C</a></li>
+              <li><a href="../index.html#infrastructure">Infrastructure</a></li>
+              <li><a href="https://github.com/scalex-research" data-href="github" rel="noopener">GitHub</a></li>
+            </ul>
+          </nav>
+          <nav aria-label="Firm">
+            <h2 class="footer__title">Firm</h2>
+            <ul>
+              <li><a href="../index.html#principles">Principles</a></li>
+              <li><a href="../index.html#about">About</a></li>
+              <li><a href="../index.html#contact">Contact</a></li>
+              <li><a href="../index.html#privacy">Privacy</a></li>
+              <li><a href="../index.html#terms">Terms</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+      <div class="footer__legal">
+        <p>© <span data-year>2026</span> ScaleX</p>
+        <p class="footer__privacy"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg>No cookies. No analytics. No trackers.</p>
+      </div>
+      <p class="footer__disclaimer">Research is published for educational and informational purposes and is not investment advice. Backtests are historical simulations with inherent limitations, not records of live trading. Trading involves risk. <a href="../index.html#legal">Important information</a></p>
+    </div>
+  </footer>
+</body>
+</html>

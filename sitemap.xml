@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- [DOMAIN] Replace https://[DOMAIN] with the real domain. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://[DOMAIN]/</loc></url>
+  <url><loc>https://[DOMAIN]/research/cross-sectional-momentum-under-implementation-stress.html</loc></url>
+</urlset>
