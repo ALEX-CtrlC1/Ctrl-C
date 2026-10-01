@@ -1,5 +1,0 @@
-# [PLACEHOLDER] Replace https://example.com with your domain.
-User-agent: *
-Allow: /
-
-Sitemap: https://example.com/sitemap.xml
